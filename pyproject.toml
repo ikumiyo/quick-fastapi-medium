@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "quick-fastapi-medium"
+version = "0.1.0"
+description = "基于分层架构的 FastAPI 中型项目模板"
+requires-python = ">=3.12"
+dependencies = [
+  "alembic>=1.14.0",
+  "email-validator>=2.2.0",
+  "fastapi[standard]>=0.115.0",
+  "pydantic-settings>=2.8.0",
+  "psycopg[binary]>=3.2.6",
+  "python-jose[cryptography]>=3.3.0",
+  "python-multipart>=0.0.20",
+  "redis>=5.2.1",
+  "sqlalchemy>=2.0.37",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1",
+  "pytest>=8.3.4",
+  "pytest-cov>=6.0.0",
+  "ruff>=0.9.6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

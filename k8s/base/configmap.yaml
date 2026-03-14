@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quick-fastapi-medium-config
+data:
+  PROJECT_NAME: "Quick FastAPI Medium"
+  VERSION: "0.1.0"
+  API_V1_STR: "/api/v1"
+  ENVIRONMENT: "production"
+  DEBUG: "false"
+  LOG_LEVEL: "INFO"
+  LOG_FORMAT: "json"
+  ENABLE_METRICS: "true"
+  REDIS_URL: "redis://redis.default.svc.cluster.local:6379/0"
