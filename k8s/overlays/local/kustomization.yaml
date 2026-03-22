@@ -1,0 +1,9 @@
+resources:
+  - ../../base
+
+patches:
+  - path: patch-deployment.yaml
+  - path: patch-service.yaml
+  - path: patch-configmap.yaml
+  - path: remove-ingress.yaml
+  - path: remove-hpa.yaml

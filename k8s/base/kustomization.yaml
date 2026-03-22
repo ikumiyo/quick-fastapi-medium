@@ -1,6 +1,11 @@
 resources:
   - deployment.yaml
   - service.yaml
+  - redis-service.yaml
+  - redis-deployment.yaml
+  - postgres-service.yaml
+  - postgres-pvc.yaml
+  - postgres-deployment.yaml
   - ingress.yaml
   - configmap.yaml
   - secret.yaml

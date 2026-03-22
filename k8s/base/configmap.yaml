@@ -11,4 +11,5 @@ data:
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "json"
   ENABLE_METRICS: "true"
-  REDIS_URL: "redis://redis.default.svc.cluster.local:6379/0"
+  REDIS_ENABLED: "true"
+  REDIS_URL: "redis://quick-fastapi-medium-redis:6379/0"

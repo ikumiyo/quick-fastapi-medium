@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quick-fastapi-medium-config
+data:
+  ENVIRONMENT: "development"
+  DEBUG: "true"
+  LOG_FORMAT: "text"
+  ENABLE_METRICS: "false"

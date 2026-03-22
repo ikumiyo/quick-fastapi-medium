@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quick-fastapi-medium
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: api
+          image: quick-fastapi-medium:local
+          imagePullPolicy: Never

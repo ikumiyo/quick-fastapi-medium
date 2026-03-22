@@ -110,7 +110,7 @@ uv run uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 docker compose -f docker/docker-compose.yml up --build
 ```
 
-> Docker Compose 会自动启动 Redis，API 容器连接宿主机 PostgreSQL。详见 [Docker 部署说明](docker/README.md)。
+> Docker Compose 会自动启动 PostgreSQL、Redis 和 API，API 容器直接连接容器网络内的 PostgreSQL。
 
 ---
 
@@ -275,10 +275,12 @@ docker compose -f docker/docker-compose.prod.yml up --build -d
 ### Kubernetes
 
 ```bash
-kubectl apply -k k8s/overlays/dev
+kubectl apply -k k8s/overlays/local
 ```
 
-详细部署说明见 [docs/deployment.md](docs/deployment.md) 和 [docker/README.md](docker/README.md)。
+本地测试建议使用 `k8s/overlays/local`。该清单会部署 API、PostgreSQL、Redis，并移除 Ingress 与 HPA，方便在单机集群里直接验证。
+
+详细部署说明见 [docs/k8s-local.md](docs/k8s-local.md)、[docs/deployment.md](docs/deployment.md) 和 [docs/README.md](docs/README.md)。
 
 ---
 
@@ -288,13 +290,14 @@ kubectl apply -k k8s/overlays/dev
 |------|------|
 | [架构说明](docs/architecture.md) | 分层设计与数据流 |
 | [API 说明](docs/api.md) | 接口约定与示例 |
+| [本地 Kubernetes 调试](docs/k8s-local.md) | 本地集群启动、迁移与验证步骤 |
 | [部署说明](docs/deployment.md) | 生产部署指南 |
 | [FastAPI 入口与 lifespan](docs/01_fastapi_main_lifespan.md) | main.py 设计讲解 |
 | [core/resources.py 设计](docs/02_core_resources_design.md) | 共享资源管理 |
 | [日志与异常设计](docs/03_logging_and_exceptions_design.md) | 结构化日志与异常体系 |
 | [异常系统设计](docs/06_exception_system_design.md) | 异常重构后的完整设计 |
 | [core/security.py 设计](docs/08_core_security_design.md) | JWT 与密码安全 |
-| [Docker 部署详解](docker/README.md) | 容器化部署完整说明 |
+| [Docker 部署详解](docs/README.md) | 容器化部署完整说明 |
 
 ---
 

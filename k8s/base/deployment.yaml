@@ -12,6 +12,32 @@ spec:
       labels:
         app: quick-fastapi-medium
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: quick-fastapi-medium-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: quick-fastapi-medium-secret
+                  key: POSTGRES_USER
+          command:
+            - sh
+            - -c
+            - until pg_isready -h quick-fastapi-medium-postgres -p 5432 -U "$POSTGRES_USER" -d "$POSTGRES_DB"; do echo "waiting for postgres"; sleep 2; done
+        - name: wait-for-redis
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - until redis-cli -h quick-fastapi-medium-redis -p 6379 ping | grep PONG; do echo "waiting for redis"; sleep 2; done
       containers:
         - name: api
           image: quick-fastapi-medium:latest
@@ -29,6 +55,12 @@ spec:
               port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            failureThreshold: 30
+            periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /health
