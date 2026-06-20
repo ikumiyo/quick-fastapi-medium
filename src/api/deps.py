@@ -15,16 +15,12 @@ from src.core.exceptions import (
 from src.core.resources import AppResources, get_app_resources
 from src.core.security import decode_token
 from src.crud.file import file_crud
-from src.crud.post import post_crud
 from src.crud.user import user_crud
 from src.infra.redis.client import RedisClient
 from src.infra.storage.base import BaseStorage
 from src.models.user import User
-from src.services.admin import AdminService
 from src.services.auth import AuthService
 from src.services.file import FileService
-from src.services.post import PostService
-from src.services.task import TaskService
 from src.services.user import UserService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
@@ -68,11 +64,6 @@ def get_user_service(db: DBSession) -> UserService:
     return UserService(user_crud, db)
 
 
-def get_post_service(db: DBSession) -> PostService:
-    """获取文章服务。"""
-    return PostService(post_crud, db)
-
-
 def get_auth_service(
     user_service: Annotated[UserService, Depends(get_user_service)],
     redis_client: RedisClientDep,
@@ -89,22 +80,9 @@ def get_file_service(
     return FileService(file_crud, db, storage)
 
 
-def get_admin_service(db: DBSession) -> AdminService:
-    """获取管理员服务。"""
-    return AdminService(db)
-
-
-def get_task_service() -> TaskService:
-    """获取后台任务服务。"""
-    return TaskService()
-
-
 UserServiceDep = Annotated[UserService, Depends(get_user_service)]
-PostServiceDep = Annotated[PostService, Depends(get_post_service)]
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
 FileServiceDep = Annotated[FileService, Depends(get_file_service)]
-AdminServiceDep = Annotated[AdminService, Depends(get_admin_service)]
-TaskServiceDep = Annotated[TaskService, Depends(get_task_service)]
 
 
 def get_current_user(db: DBSession, token: Annotated[str, Depends(oauth2_scheme)]) -> User:

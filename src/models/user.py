@@ -9,7 +9,6 @@ from src.models.base import Base, IDMixin, TimestampMixin
 
 if TYPE_CHECKING:
     from src.models.file import StoredFile
-    from src.models.post import Post
 
 
 class User(Base, IDMixin, TimestampMixin):
@@ -24,10 +23,6 @@ class User(Base, IDMixin, TimestampMixin):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
-    posts: Mapped[list[Post]] = relationship(
-        back_populates="author",
-        cascade="all, delete-orphan",
-    )
     files: Mapped[list[StoredFile]] = relationship(
         back_populates="owner", cascade="all, delete-orphan"
     )

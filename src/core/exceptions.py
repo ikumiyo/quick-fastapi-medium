@@ -107,13 +107,6 @@ class UsernameAlreadyExistsError(ConflictError):
     code = "USERNAME_ALREADY_EXISTS"
 
 
-class PostNotFoundError(DomainError):
-    """文章不存在。"""
-
-    code = "POST_NOT_FOUND"
-    http_status = status.HTTP_404_NOT_FOUND
-
-
 class InvalidCredentialsError(AuthenticationError):
     """用户名或密码错误。"""
 

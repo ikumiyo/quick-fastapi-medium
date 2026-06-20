@@ -1,3 +1,3 @@
-from src.api.v1.routers import admin, auth, files, posts, tasks, users
+from src.api.v1.routers import auth, files, users
 
-__all__ = ["auth", "users", "posts", "files", "tasks", "admin"]
+__all__ = ["auth", "users", "files"]
