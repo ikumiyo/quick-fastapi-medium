@@ -10,7 +10,7 @@ from src.core.exceptions import (
     TokenTypeError,
 )
 from src.core.security import create_access_token, create_refresh_token, decode_token
-from src.redis.client import RedisClient
+from src.infra.redis.client import RedisClient
 from src.schemas.auth import TokenResponse
 from src.services.user import UserService
 

@@ -1,4 +1,4 @@
-from src.sdk.storage.base import BaseStorage, StorageObject, UploadedFile
+from src.infra.storage.base import BaseStorage, StorageObject, UploadedFile
 
 
 class OSSStorage(BaseStorage):

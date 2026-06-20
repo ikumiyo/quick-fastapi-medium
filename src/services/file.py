@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
 from src.crud.file import CRUDFile
+from src.infra.storage.base import BaseStorage, UploadedFile
 from src.models.file import StoredFile
 from src.models.user import User
-from src.sdk.storage.base import BaseStorage, UploadedFile
 from src.services.base import BaseService
 
 

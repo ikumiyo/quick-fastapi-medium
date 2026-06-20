@@ -1,6 +1,6 @@
 """初始化数据库并创建基础数据。"""
 
-from src.core.database import build_engine, build_session_factory, init_db
+from src.infra.db.database import build_engine, build_session_factory, init_db
 from src.models import (
     base,  # noqa: F401
     file,  # noqa: F401

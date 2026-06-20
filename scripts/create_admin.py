@@ -1,8 +1,8 @@
 """创建默认管理员账号。"""
 
 from src.core.config import settings
-from src.core.database import build_engine, build_session_factory
 from src.crud.user import user_crud
+from src.infra.db.database import build_engine, build_session_factory
 from src.schemas.user import UserCreate
 from src.services.user import UserService
 

@@ -17,9 +17,9 @@ from src.core.security import decode_token
 from src.crud.file import file_crud
 from src.crud.post import post_crud
 from src.crud.user import user_crud
+from src.infra.redis.client import RedisClient
+from src.infra.storage.base import BaseStorage
 from src.models.user import User
-from src.redis.client import RedisClient
-from src.sdk.storage.base import BaseStorage
 from src.services.admin import AdminService
 from src.services.auth import AuthService
 from src.services.file import FileService

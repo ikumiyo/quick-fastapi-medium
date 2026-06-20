@@ -1,8 +1,8 @@
 from src.core.config import Settings, settings
-from src.sdk.storage.base import BaseStorage
-from src.sdk.storage.local import LocalStorage
-from src.sdk.storage.oss import OSSStorage
-from src.sdk.storage.s3 import S3Storage
+from src.infra.storage.base import BaseStorage
+from src.infra.storage.local import LocalStorage
+from src.infra.storage.oss import OSSStorage
+from src.infra.storage.s3 import S3Storage
 
 
 def build_storage_backend(app_settings: Settings | None = None) -> BaseStorage:

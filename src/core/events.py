@@ -1,6 +1,5 @@
 import logging
 
-from src.core.database import init_db
 from src.core.logging import configure_logging
 from src.core.resources import (
     AppResources,
@@ -8,6 +7,7 @@ from src.core.resources import (
     create_app_resources,
     set_app_resources,
 )
+from src.infra.db.database import init_db
 
 logger = logging.getLogger(__name__)
 

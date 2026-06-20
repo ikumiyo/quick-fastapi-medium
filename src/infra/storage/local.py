@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from src.core.config import settings
 from src.core.exceptions import StorageOperationError
-from src.sdk.storage.base import BaseStorage, StorageObject, UploadedFile
+from src.infra.storage.base import BaseStorage, StorageObject, UploadedFile
 
 
 class LocalStorage(BaseStorage):
