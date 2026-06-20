@@ -27,11 +27,11 @@ def on_startup(app) -> AppResources:
     return resources
 
 
-def on_shutdown(app) -> None:
+async def on_shutdown(app) -> None:
     """应用关闭时执行。"""
     # 尝试从 app 中获取资源
     resources = getattr(app.state, "resources", None)
     # 如果资源存在，则关闭连接和资源
     if resources is not None:
-        close_app_resources(resources)
+        await close_app_resources(resources)
     logger.info("application_stopped")  # 记录关闭日志

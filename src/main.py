@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
     """统一管理应用生命周期。"""
     on_startup(app)
     yield
-    on_shutdown(app)
+    await on_shutdown(app)
 
 
 def get_application() -> FastAPI:

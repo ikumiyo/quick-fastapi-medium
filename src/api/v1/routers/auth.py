@@ -12,21 +12,21 @@ router = APIRouter()
 
 
 @router.post("/login", response_model=TokenResponse)
-def login(
+async def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     service: AuthServiceDep,
 ) -> TokenResponse:
     """用户名或邮箱登录。"""
-    return service.login(account=form_data.username, password=form_data.password)
+    return await service.login(account=form_data.username, password=form_data.password)
 
 
 @router.post("/refresh", response_model=TokenResponse)
-def refresh_token(
+async def refresh_token(
     payload: RefreshTokenRequest,
     service: AuthServiceDep,
 ) -> TokenResponse:
     """刷新 access token。"""
-    return service.refresh(refresh_token=payload.refresh_token)
+    return await service.refresh(refresh_token=payload.refresh_token)
 
 
 @router.get("/me", response_model=UserPublic)

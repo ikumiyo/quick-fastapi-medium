@@ -4,9 +4,9 @@ from fastapi import FastAPI, Request
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
 
-from redis import Redis
 from src.core.config import Settings, settings
 from src.core.database import build_engine, build_session_factory
+from src.redis.client import RedisClient
 from src.sdk.storage import build_storage_backend
 from src.sdk.storage.base import BaseStorage
 
@@ -19,7 +19,7 @@ class AppResources:
     engine: Engine
     session_factory: sessionmaker
     storage: BaseStorage
-    redis: Redis | None
+    redis: RedisClient
 
 
 def create_app_resources(app_settings: Settings | None = None) -> AppResources:
@@ -28,10 +28,7 @@ def create_app_resources(app_settings: Settings | None = None) -> AppResources:
     engine = build_engine(current_settings.DATABASE_URL)
     session_factory = build_session_factory(engine)
     storage = build_storage_backend(current_settings)
-    redis_client = None
-
-    if current_settings.REDIS_ENABLED:
-        redis_client = Redis.from_url(current_settings.REDIS_URL, decode_responses=True)
+    redis_client = RedisClient(current_settings)
 
     return AppResources(
         settings=current_settings,
@@ -42,10 +39,9 @@ def create_app_resources(app_settings: Settings | None = None) -> AppResources:
     )
 
 
-def close_app_resources(resources: AppResources) -> None:
+async def close_app_resources(resources: AppResources) -> None:
     """关闭应用共享资源。"""
-    if resources.redis is not None:
-        resources.redis.close()
+    await resources.redis.close()
     resources.engine.dispose()
 
 

@@ -5,7 +5,6 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 from sqlalchemy.orm import Session, sessionmaker
 
-from redis import Redis
 from src.core.exceptions import (
     AccountDisabledError,
     PermissionDeniedError,
@@ -19,6 +18,7 @@ from src.crud.file import file_crud
 from src.crud.post import post_crud
 from src.crud.user import user_crud
 from src.models.user import User
+from src.redis.client import RedisClient
 from src.sdk.storage.base import BaseStorage
 from src.services.admin import AdminService
 from src.services.auth import AuthService
@@ -28,6 +28,7 @@ from src.services.task import TaskService
 from src.services.user import UserService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+
 
 def get_session_factory(
     resources: Annotated[AppResources, Depends(get_app_resources)],
@@ -45,7 +46,7 @@ def get_db_session(session_factory: Annotated[sessionmaker, Depends(get_session_
         db.close()
 
 
-def get_redis(resources: Annotated[AppResources, Depends(get_app_resources)]) -> Redis | None:
+def get_redis(resources: Annotated[AppResources, Depends(get_app_resources)]) -> RedisClient:
     """获取共享 Redis 客户端。"""
     return resources.redis
 
@@ -58,7 +59,7 @@ def get_storage_backend(
 
 
 DBSession = Annotated[Session, Depends(get_db_session)]
-RedisClient = Annotated[Redis | None, Depends(get_redis)]
+RedisClientDep = Annotated[RedisClient, Depends(get_redis)]
 StorageBackend = Annotated[BaseStorage, Depends(get_storage_backend)]
 
 
@@ -74,7 +75,7 @@ def get_post_service(db: DBSession) -> PostService:
 
 def get_auth_service(
     user_service: Annotated[UserService, Depends(get_user_service)],
-    redis_client: RedisClient,
+    redis_client: RedisClientDep,
 ) -> AuthService:
     """获取认证服务。"""
     return AuthService(user_service, redis_client)
